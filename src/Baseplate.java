@@ -16,10 +16,10 @@ public class Baseplate extends PApplet {
 	ArrayList<Vec2> points;
 	Startup startup;
 
-	Baseplate(int baseColor, ArrayList<Vec2> points, Startup startup) {
+	Baseplate(Startup startup, int baseColor, ArrayList<Vec2> points) {
+		this.startup = startup;
 		this.baseColor = baseColor;
 		this.points = points;
-		this.startup = startup;
 
 		Vec2[] vertices = new Vec2[this.points.size()];
 		

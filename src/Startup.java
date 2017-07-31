@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import org.jbox2d.common.Vec2;
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class Startup extends PApplet {
 	private static Box2DProcessing box2D;
@@ -38,9 +39,11 @@ public class Startup extends PApplet {
 			angle += angleVelocity;
 		}
 
-		baseplate = new Baseplate(color(255), points, this);
+		baseplate = new Baseplate(this, color(255), points);
 
 		movers = new ArrayList<Box2DMover>();
+		Box2DMover mover = new Box2DMover(this, new PVector(20, 20), new PVector(width / 2, height / 2), color(255), false);
+		movers.add(mover);
 	}
 
 	public void draw() {
@@ -48,7 +51,11 @@ public class Startup extends PApplet {
 
 		box2D.step();
 		fill(255);
-		ellipse(20, 20, 10, 10);
+		for(Box2DMover mover : movers) {
+			mover.sketch();
+		}
+		Box2DMover mover = new Box2DMover(this, new PVector(20, 20), new PVector(width / 2, height / 2), color(255), false);
+		movers.add(mover);
 		baseplate.sketch();
 	}
 
