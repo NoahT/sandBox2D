@@ -31,6 +31,10 @@ public class Box2DMover extends PApplet {
 		this(size, location, 0, anchored);
 	}
 	 */
+	
+	Box2DMover(Startup startup, PVector size, Vec2 location, int baseColor, boolean anchored) {
+		this(startup, size, new PVector(location.x, location.y), baseColor, anchored);
+	}
 
 	Box2DMover(Startup startup, PVector size, PVector location, int baseColor, boolean anchored) {
 		this.startup = startup;
