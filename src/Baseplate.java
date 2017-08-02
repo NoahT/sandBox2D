@@ -9,15 +9,17 @@ import org.jbox2d.dynamics.FixtureDef;
 
 import processing.core.PApplet;
 
-public class Baseplate extends PApplet {
+public class Baseplate {
+	private PApplet pApplet;
+	
 	int baseColor;
 
 	Body body;
 	ArrayList<Vec2> points;
-	Startup startup;
 
-	Baseplate(Startup startup, int baseColor, ArrayList<Vec2> points) {
-		this.startup = startup;
+	Baseplate(PApplet pApplet, int baseColor, ArrayList<Vec2> points) {
+		this.pApplet = pApplet;
+		
 		this.baseColor = baseColor;
 		this.points = points;
 
@@ -49,13 +51,13 @@ public class Baseplate extends PApplet {
 
 	public void sketch() {
 		try {
-			startup.stroke(this.baseColor);
-			startup.noFill();
-			startup.beginShape();
+			pApplet.stroke(this.baseColor);
+			pApplet.noFill();
+			pApplet.beginShape();
 			for(Vec2 vector: this.points) {
-				startup.vertex(vector.x, vector.y);
+				pApplet.vertex(vector.x, vector.y);
 			}
-			startup.endShape();
+			pApplet.endShape();
 		}catch(NullPointerException exception) {
 			exception.printStackTrace();
 		}

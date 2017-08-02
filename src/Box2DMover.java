@@ -8,15 +8,15 @@ import org.jbox2d.dynamics.FixtureDef;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Box2DMover extends PApplet {
-	Startup startup;
+public class Box2DMover {
+	private PApplet pApplet;
 
-	PVector size;
+	private PVector size;
 
-	int baseColor;
+	private int baseColor;
 
-	Body body;
-	BodyDef bodyDef;
+	private Body body;
+	private BodyDef bodyDef;
 
 	/*
 	Box2DMover() {
@@ -32,12 +32,12 @@ public class Box2DMover extends PApplet {
 	}
 	 */
 	
-	Box2DMover(Startup startup, PVector size, Vec2 location, int baseColor, boolean anchored) {
-		this(startup, size, new PVector(location.x, location.y), baseColor, anchored);
+	Box2DMover(PApplet pApplet, PVector size, Vec2 location, int baseColor, boolean anchored) {
+		this(pApplet, size, new PVector(location.x, location.y), baseColor, anchored);
 	}
 
-	Box2DMover(Startup startup, PVector size, PVector location, int baseColor, boolean anchored) {
-		this.startup = startup;
+	Box2DMover(PApplet pApplet, PVector size, PVector location, int baseColor, boolean anchored) {
+		this.pApplet = pApplet;
 
 		this.size = size;
 		this.baseColor = baseColor;
@@ -60,22 +60,30 @@ public class Box2DMover extends PApplet {
 
 		body.createFixture(fixtureDef);
 	}
+	
+	public Body getBody() {
+		return this.body;
+	}
+	
+	public BodyDef getBodyDef() {
+		return this.bodyDef;
+	}
 
 	void sketch() {
 		Vec2 position = Startup.getWorld().getBodyPixelCoord(this.body);
 		float angle = body.getAngle();
 
-		startup.pushMatrix();
-		startup.translate(position.x, position.y);
-		startup.rotate(-angle); //counter clockwise in box2D
+		pApplet.pushMatrix();
+		pApplet.translate(position.x, position.y);
+		pApplet.rotate(-angle); //counter clockwise in box2D
 
-		startup.fill(this.baseColor);
-		startup.stroke(this.baseColor);
+		pApplet.fill(this.baseColor);
+		pApplet.stroke(this.baseColor);
 
-		startup.rectMode(CENTER);
+		pApplet.rectMode(pApplet.CENTER);
 
-		startup.rect(0, 0, this.size.x, this.size.y);
-		startup.popMatrix();
+		pApplet.rect(0, 0, this.size.x, this.size.y);
+		pApplet.popMatrix();
 	}
 
 	void removeBody() {

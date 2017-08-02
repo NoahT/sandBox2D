@@ -6,20 +6,19 @@ import org.jbox2d.dynamics.joints.MouseJointDef;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Box2DMouseJoint extends PApplet {
+public class Box2DMouseJoint {
+	private PApplet pApplet;
+
 	Box2DMover mover1,
 	mover2;
 	MouseJointDef mjd;
 	MouseJoint mj;
 
-	Box2DMouseJoint() {
+	Box2DMouseJoint(PApplet pApplet, Body mover1, Body mover2, Vec2 target) {
+		this(pApplet, mover1, mover2, new PVector(target.x, target.y));
 	}
 
-	Box2DMouseJoint(Body mover1, Body mover2, Vec2 target) {
-		this(mover1, mover2, new PVector(target.x, target.y));
-	}
-	
-	Box2DMouseJoint(Body mover1, Body mover2, PVector target) {
+	Box2DMouseJoint(PApplet pApplet, Body mover1, Body mover2, PVector target) {
 		this.mjd = new MouseJointDef();
 		this.mjd.bodyA = mover1;
 		this.mjd.bodyB = mover2;

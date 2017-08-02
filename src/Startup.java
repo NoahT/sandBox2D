@@ -10,6 +10,7 @@ public class Startup extends PApplet {
 	private Baseplate baseplate;
 	private ArrayList<Box2DMover> movers;
 	private Box2DMouseJoint mouseJoint;
+	private Player player;
 
 	public static Box2DProcessing getWorld() {
 		return box2D;
@@ -41,7 +42,7 @@ public class Startup extends PApplet {
 		}
 
 		baseplate = new Baseplate(this, color(255), points);
-
+		/*
 		movers = new ArrayList<Box2DMover>();
 		Box2DMover base = new Box2DMover(this, new PVector(200, 10), new PVector(width / 2, height / 2), color(255), false),
 				wheel1 = new Box2DMover(this, new PVector(50, 50), new PVector((width / 2) - 75, height / 2), color(255), false),
@@ -49,12 +50,12 @@ public class Startup extends PApplet {
 		movers.add(base);
 		movers.add(wheel1);
 		movers.add(wheel2);
-		
+
 		mouseJoint = new Box2DMouseJoint(box2D.getGroundBody(), base.body, box2D.coordPixelsToWorld(mouseX, mouseY));
 		mouseJoint.setMaxForce(10000);
 		mouseJoint.setDampingRatio(1);
 		mouseJoint.setFrequencyHz(10000);
-		
+
 		Box2DHinge hinge1 = new Box2DHinge(base, wheel1),
 				hinge2 = new Box2DHinge(base, wheel2);
 		hinge1.setMotorSpeed((float) Math.PI * 4);
@@ -63,6 +64,8 @@ public class Startup extends PApplet {
 		hinge2.setMaxMotorTorque(10000);
 		hinge1.toggleMotor();
 		hinge2.toggleMotor();
+		 */
+		player = new Player(this);
 	}
 
 	public void draw() {
@@ -70,12 +73,33 @@ public class Startup extends PApplet {
 
 		box2D.step();
 		fill(255);
-		
-		mouseJoint.setTarget(new PVector(mouseX, mouseY));
+
+		/*mouseJoint.setTarget(new PVector(mouseX, mouseY));
 		for(Box2DMover mover : movers) {
 			mover.sketch();
 		}
+		 */
+		if(keyPressed) {
+			switch(key) {
+			case 'a':
+				player.moveLeft();
+				break;
+			case 'd':
+				player.moveRight();
+				break;
+			case ' ':
+				player.jump();
+				break;
+			default:
+				break;
+			}
+		}else {
+			player.stop();
+		}
+
+
+		player.sketch();
+
 		baseplate.sketch();
 	}
-
 }
