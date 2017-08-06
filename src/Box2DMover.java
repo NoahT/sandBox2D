@@ -56,7 +56,7 @@ public class Box2DMover {
 		fixtureDef.shape = polygonShape;
 		fixtureDef.density = 1;
 		fixtureDef.friction = .5f;
-		fixtureDef.restitution = .5f;
+		fixtureDef.restitution = .1f;
 
 		body.createFixture(fixtureDef);
 	}
@@ -68,8 +68,16 @@ public class Box2DMover {
 	public BodyDef getBodyDef() {
 		return this.bodyDef;
 	}
+	
+	public void sketch() {
+		this.sketch(0, 0);
+	}
+	
+	public void sketch(PVector translate) {
+		this.sketch(translate.x, translate.y);
+	}
 
-	void sketch() {
+	public void sketch(float translateX, float translateY) {
 		Vec2 position = Startup.getWorld().getBodyPixelCoord(this.body);
 		float angle = body.getAngle();
 
@@ -82,11 +90,11 @@ public class Box2DMover {
 
 		pApplet.rectMode(pApplet.CENTER);
 
-		pApplet.rect(0, 0, this.size.x, this.size.y);
+		pApplet.rect(translateX, translateY, this.size.x, this.size.y);
 		pApplet.popMatrix();
 	}
 
-	void removeBody() {
+	public void removeBody() {
 		Startup.getWorld().destroyBody(this.body);
 	}
 }

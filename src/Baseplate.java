@@ -8,10 +8,11 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class Baseplate {
 	private PApplet pApplet;
-	
+
 	int baseColor;
 
 	Body body;
@@ -19,12 +20,12 @@ public class Baseplate {
 
 	Baseplate(PApplet pApplet, int baseColor, ArrayList<Vec2> points) {
 		this.pApplet = pApplet;
-		
+
 		this.baseColor = baseColor;
 		this.points = points;
 
 		Vec2[] vertices = new Vec2[this.points.size()];
-		
+
 		for(int index = 0; index < vertices.length; index++) {
 			vertices[index] = Startup.getWorld().coordPixelsToWorld(this.points.get(index));
 		}
@@ -48,9 +49,19 @@ public class Baseplate {
 	public void removeBody() {
 		Startup.getWorld().destroyBody(this.body);
 	}
-
+	
 	public void sketch() {
+		this.sketch(0, 0);
+	}
+	
+	public void sketch(PVector translate) {
+		this.sketch(translate.x, translate.y);
+	}
+
+	public void sketch(float translateX, float translateY) {
 		try {
+			pApplet.pushMatrix();
+			pApplet.translate(translateX, translateY);
 			pApplet.stroke(this.baseColor);
 			pApplet.noFill();
 			pApplet.beginShape();
@@ -58,12 +69,15 @@ public class Baseplate {
 				pApplet.vertex(vector.x, vector.y);
 			}
 			pApplet.endShape();
+			pApplet.popMatrix();
 		}catch(NullPointerException exception) {
 			exception.printStackTrace();
 		}
 	}
-
+	
+	/*
 	public String toString() {
 		return "" + this.baseColor;
 	}
+	*/
 }

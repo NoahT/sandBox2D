@@ -30,10 +30,10 @@ public class Startup extends PApplet {
 		box2D.setGravity(0, -50);
 
 		ArrayList<Vec2> points = new ArrayList<Vec2>();
-		float xGap = 50,
-				yBase = height * .8f,
+		float xGap = 1,
+				yBase = height * 1f,
 				angle = 0,
-				angleVelocity = radians(5),
+				angleVelocity = radians(0),
 				amplitude = 100;
 
 		for(int index = 0; index < (width) / xGap; index++) {
@@ -70,15 +70,30 @@ public class Startup extends PApplet {
 
 	public void draw() {
 		background(0);
-
 		box2D.step();
 		fill(255);
 
-		/*mouseJoint.setTarget(new PVector(mouseX, mouseY));
-		for(Box2DMover mover : movers) {
-			mover.sketch();
+
+		if(keyPressed) {
+			if(key == 'a')
+				player.moveLeft();
+			if(key == 'd')
+				player.moveRight();
+			if(key == ' ')
+				player.jump();
 		}
-		 */
+		
+		Vec2 position = Startup.getWorld().getBodyPixelCoord(this.player.getTorso().getBody());
+		
+		pushMatrix();
+		//translate();
+		player.sketch();
+		baseplate.sketch(0, -position.y / 2);
+		popMatrix();
+	}
+	/*
+	@Override
+	public void keyTyped() {
 		if(keyPressed) {
 			switch(key) {
 			case 'a':
@@ -96,10 +111,6 @@ public class Startup extends PApplet {
 		}else {
 			player.stop();
 		}
-
-
-		player.sketch();
-
-		baseplate.sketch();
 	}
+	 */
 }
