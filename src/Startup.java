@@ -83,12 +83,14 @@ public class Startup extends PApplet implements ContactListener {
 		box2D.step();
 		fill(255);
 
+		/*
 		float random = (float) new java.util.Random().nextDouble();
 		int color = (random < .33f) ? color(255, 0, 0, 255 / 2) : (random < .66f) ? color(0, 255, 0, 255 / 2) : color(0, 0, 255, 255 / 2);
 		if(frameCount % 2 == 0) {
 			Box2DMover mover = new Box2DMover(this, new PVector(10, 10), new PVector(width / 2, height / 2), color, false);
 			movers.add(mover);
 		}
+		 */
 		for(int index = 0; index < movers.size(); index++) {
 			movers.get(index).sketch();
 		}
@@ -141,15 +143,12 @@ public class Startup extends PApplet implements ContactListener {
 		Object o1 = b1.getUserData(),
 				o2 = b2.getUserData();
 
-		try {
-			if(o1.getClass() == Player.class) {
-				Player p1 = (Player) o1;
-				p1.setMidAir(false);
-			}else if(o2.getClass() == Player.class) {
-				Player p2 = (Player) o2;
-				p2.setMidAir(false);
-			}
-		}catch(NullPointerException exception) {
+		if(o1 != null && o1.getClass() == Player.class) {
+			Player p1 = (Player) o1;
+			p1.setMidAir(false);
+		}else if(o2 != null && o2.getClass() == Player.class) {
+			Player p2 = (Player) o2;
+			p2.setMidAir(false);
 		}
 	}
 
@@ -162,15 +161,12 @@ public class Startup extends PApplet implements ContactListener {
 		Object o1 = b1.getUserData(),
 				o2 = b2.getUserData();
 
-		try {
-			if(o1.getClass() == Player.class) {
-				Player p1 = (Player) o1;
-				p1.setMidAir(true);
-			}else if(o2.getClass() == Player.class) {
-				Player p2 = (Player) o2;
-				p2.setMidAir(true);
-			}
-		}catch(NullPointerException exception) {
+		if(o1 != null && o1.getClass() == Player.class) {
+			Player p1 = (Player) o1;
+			p1.setMidAir(true);
+		}else if(o2 != null && o2.getClass() == Player.class) {
+			Player p2 = (Player) o2;
+			p2.setMidAir(true);
 		}
 	}
 
