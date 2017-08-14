@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class Startup extends PApplet implements ContactListener {
 	private static Box2DProcessing box2D;
@@ -58,15 +59,14 @@ public class Startup extends PApplet implements ContactListener {
 		background(0);
 		box2D.step();
 		fill(255);
-
-		/*
+		
 		float random = (float) new java.util.Random().nextDouble();
 		int color = (random < .33f) ? color(255, 0, 0, 255 / 2) : (random < .66f) ? color(0, 255, 0, 255 / 2) : color(0, 0, 255, 255 / 2);
 		if(frameCount % 2 == 0) {
 			Box2DMover mover = new Box2DMover(this, new PVector(10, 10), new PVector(width / 2, height / 2), color, false);
 			movers.add(mover);
 		}
-		 */
+		
 		for(int index = 0; index < movers.size(); index++) {
 			movers.get(index).sketch();
 		}
@@ -83,9 +83,8 @@ public class Startup extends PApplet implements ContactListener {
 
 		Vec2 position = Startup.getWorld().getBodyPixelCoord(this.player.getTorso().getBody());
 		camera.setTranslation(position.x, position.y);
-		
-		
-		super.camera(width / 2, height / 2, (float) ((height / 2) / Math.tan(PI * 30.0 / 180.0)), position.x, position.y, 0, 0, 1, 0);
+		//(float) ((height / 2) / Math.tan(PI * 30.0 / 180.0))
+		super.camera(width / 2, height / 2, (float) ((height / 2) / Math.tan(PI * 60.0 / 180.0)), position.x, position.y, 0, 0, 1f, 0);
 		player.sketch();
 		baseplate.sketch();
 	}
