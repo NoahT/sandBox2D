@@ -74,11 +74,10 @@ public class Player {
 	}
 
 	public void jump() {
-		//this.torso.getBody().applyForce(new Vec2(0, this.maxJumpVelocity), this.torso.getBody().getWorldCenter());
 		if(this.midAir)
 			return;
 		float velocityChange = this.maxJumpVelocity - Math.abs(this.getYVelocity());
-		this.torso.getBody().applyLinearImpulse(new Vec2(0, this.maxJumpVelocity), this.torso.getBody().getWorldCenter(), false);
+		this.torso.getBody().applyLinearImpulse(new Vec2(0, velocityChange), this.torso.getBody().getWorldCenter(), false);
 	}
 
 	public void stop() {

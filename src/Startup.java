@@ -9,21 +9,20 @@ import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import processing.core.PApplet;
-import processing.core.PVector;
 
 public class Startup extends PApplet implements ContactListener {
 	private static Box2DProcessing box2D;
 	private Baseplate baseplate;
 	private ArrayList<Box2DMover> movers;
-	private Box2DMouseJoint mouseJoint;
 	private Player player;
+	private Camera camera;
 
 	public static Box2DProcessing getWorld() {
 		return box2D;
 	}
 
 	public void settings() {
-		size(1000, 500);//fullScreen();
+		fullScreen(P3D);
 	}
 
 	public void setup() {
@@ -38,7 +37,7 @@ public class Startup extends PApplet implements ContactListener {
 
 		ArrayList<Vec2> points = new ArrayList<Vec2>();
 		float xGap = 1,
-				yBase = height * 1f,
+				yBase = height * .8f,
 				angle = 0,
 				angleVelocity = radians(0),
 				amplitude = 100;
@@ -49,33 +48,10 @@ public class Startup extends PApplet implements ContactListener {
 		}
 
 		baseplate = new Baseplate(this, color(255), points);
-
 		movers = new ArrayList<Box2DMover>();
-
-		/*
-		movers = new ArrayList<Box2DMover>();
-		Box2DMover base = new Box2DMover(this, new PVector(200, 10), new PVector(width / 2, height / 2), color(255), false),
-				wheel1 = new Box2DMover(this, new PVector(50, 50), new PVector((width / 2) - 75, height / 2), color(255), false),
-				wheel2 = new Box2DMover(this, new PVector(50, 50), new PVector((width / 2) + 75, height / 2), color(255), false);
-		movers.add(base);
-		movers.add(wheel1);
-		movers.add(wheel2);
-
-		mouseJoint = new Box2DMouseJoint(box2D.getGroundBody(), base.body, box2D.coordPixelsToWorld(mouseX, mouseY));
-		mouseJoint.setMaxForce(10000);
-		mouseJoint.setDampingRatio(1);
-		mouseJoint.setFrequencyHz(10000);
-
-		Box2DHinge hinge1 = new Box2DHinge(base, wheel1),
-				hinge2 = new Box2DHinge(base, wheel2);
-		hinge1.setMotorSpeed((float) Math.PI * 4);
-		hinge1.setMaxMotorTorque(10000);
-		hinge2.setMotorSpeed((float) Math.PI * 4);
-		hinge2.setMaxMotorTorque(10000);
-		hinge1.toggleMotor();
-		hinge2.toggleMotor();
-		 */
 		player = new Player(this);
+		
+		camera = new Camera(0, 0);
 	}
 
 	public void draw() {
@@ -95,7 +71,8 @@ public class Startup extends PApplet implements ContactListener {
 			movers.get(index).sketch();
 		}
 
-		if(keyPressed) {
+		if(keyPressed) { //not sure why this is bugged.
+			//System.out.println(key);
 			if(key == 'a')
 				player.moveLeft();
 			if(key == 'd')
@@ -105,34 +82,13 @@ public class Startup extends PApplet implements ContactListener {
 		}
 
 		Vec2 position = Startup.getWorld().getBodyPixelCoord(this.player.getTorso().getBody());
-
-		pushMatrix();
+		camera.setTranslation(position.x, position.y);
+		
+		
+		super.camera(width / 2, height / 2, (float) ((height / 2) / Math.tan(PI * 30.0 / 180.0)), position.x, position.y, 0, 0, 1, 0);
 		player.sketch();
 		baseplate.sketch();
-		popMatrix();
 	}
-	/*
-	@Override
-	public void keyTyped() {
-		if(keyPressed) {
-			switch(key) {
-			case 'a':
-				player.moveLeft();
-				break;
-			case 'd':
-				player.moveRight();
-				break;
-			case ' ':
-				player.jump();
-				break;
-			default:
-				break;
-			}
-		}else {
-			player.stop();
-		}
-	}
-	 */
 
 	@Override
 	public void beginContact(Contact contact) {
