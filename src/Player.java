@@ -22,8 +22,8 @@ public class Player {
 		this.torso.getBody().setFixedRotation(true);
 		this.torso.getBody().setUserData(this);
 		
-		this.maxMovingVelocity = 50;
-		this.maxJumpVelocity = 500;
+		this.maxMovingVelocity = 25;
+		this.maxJumpVelocity = 400;
 		this.midAir = true;
 	}
 	
@@ -64,20 +64,22 @@ public class Player {
 	}
 
 	public void moveLeft() {
-		float velocityChange = this.maxMovingVelocity - Math.abs(this.getXVelocity());
-		this.torso.getBody().applyLinearImpulse(new Vec2(-velocityChange, 0), this.torso.getBody().getWorldCenter(), false);
+		//float velocityChange = this.maxMovingVelocity - Math.abs(this.getXVelocity());
+		this.torso.getBody().applyLinearImpulse(new Vec2(-this.maxMovingVelocity, 10), this.torso.getBody().getWorldCenter(), false);
+		//System.out.println(this.getXVelocity());
 	}
 
 	public void moveRight() {
-		float velocityChange = this.maxMovingVelocity - Math.abs(this.getXVelocity());
-		this.torso.getBody().applyLinearImpulse(new Vec2(velocityChange, 0), this.torso.getBody().getWorldCenter(), false);
+		//float velocityChange = this.maxMovingVelocity - Math.abs(this.getXVelocity());
+		this.torso.getBody().applyLinearImpulse(new Vec2(this.maxMovingVelocity, 10), this.torso.getBody().getWorldCenter(), false);
+		//System.out.println(this.getXVelocity());
 	}
 
 	public void jump() {
 		if(this.midAir)
 			return;
 		float velocityChange = this.maxJumpVelocity - Math.abs(this.getYVelocity());
-		this.torso.getBody().applyLinearImpulse(new Vec2(0, velocityChange), this.torso.getBody().getWorldCenter(), false);
+		this.torso.getBody().applyLinearImpulse(new Vec2(this.getXVelocity(), velocityChange), this.torso.getBody().getWorldCenter(), false);
 	}
 
 	public void stop() {

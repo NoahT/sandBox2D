@@ -56,7 +56,7 @@ public class Box2DMover {
 		fixtureDef.shape = polygonShape;
 		fixtureDef.density = 1;
 		fixtureDef.friction = .5f;
-		fixtureDef.restitution = .5f;
+		fixtureDef.restitution = .1f;
 
 		body.createFixture(fixtureDef);
 		body.setUserData(this);
