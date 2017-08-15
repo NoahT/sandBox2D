@@ -16,14 +16,15 @@ public class Startup extends PApplet implements ContactListener {
 	private Baseplate baseplate;
 	private ArrayList<Box2DMover> movers;
 	private Player player;
-	private Camera camera;
+	private Sound sound;
 
 	public static Box2DProcessing getWorld() {
 		return box2D;
 	}
 
 	public void settings() {
-		fullScreen(P3D);
+		size(1500, 1000, P3D);
+		//fullScreen(P3D);
 	}
 
 	public void setup() {
@@ -37,13 +38,13 @@ public class Startup extends PApplet implements ContactListener {
 		box2D.listenForCollisions();
 
 		ArrayList<Vec2> points = new ArrayList<Vec2>();
-		float xGap = 1,
+		float xGap = 50,
 				yBase = height * .8f,
 				angle = 0,
 				angleVelocity = radians(0),
 				amplitude = 100;
 
-		for(int index = 0; index < (width) / xGap; index++) {
+		for(int index = -500; index < ((width) / xGap) + 500; index++) {
 			points.add(new Vec2((0) + (index * xGap), yBase + (sin(angle) * amplitude)));
 			angle += angleVelocity;
 		}
@@ -52,7 +53,7 @@ public class Startup extends PApplet implements ContactListener {
 		movers = new ArrayList<Box2DMover>();
 		player = new Player(this);
 		
-		camera = new Camera(0, 0);
+		this.sound = new Sound("C:\\Users\\Noah Teshima\\Desktop\\collision.wav");
 	}
 
 	public void draw() {
@@ -61,10 +62,14 @@ public class Startup extends PApplet implements ContactListener {
 		fill(255);
 		
 		float random = (float) new java.util.Random().nextDouble();
-		int color = (random < .33f) ? color(255, 0, 0, 255 / 2) : (random < .66f) ? color(0, 255, 0, 255 / 2) : color(0, 0, 255, 255 / 2);
-		if(frameCount % 2 == 0) {
-			Box2DMover mover = new Box2DMover(this, new PVector(10, 10), new PVector(width / 2, height / 2), color, false);
+		//int color = (random < .33f) ? color(255, 0, 0, 255 / 2) : (random < .66f) ? color(0, 255, 0, 255 / 2) : color(0, 0, 255, 255 / 2);
+		if(frameCount % 120 == 0) {
+			Box2DMover mover = new Box2DMover(this, new PVector(10, 10), new PVector(width / 2, height / 2), color(random(255), random(255), random(255), 255 / 2), false);
 			movers.add(mover);
+			if(movers.size() >= 500) {
+				movers.get(0).removeBody();
+				movers.remove(0);
+			}
 		}
 		
 		for(int index = 0; index < movers.size(); index++) {
@@ -82,9 +87,8 @@ public class Startup extends PApplet implements ContactListener {
 		}
 
 		Vec2 position = Startup.getWorld().getBodyPixelCoord(this.player.getTorso().getBody());
-		camera.setTranslation(position.x, position.y);
 		//(float) ((height / 2) / Math.tan(PI * 30.0 / 180.0))
-		super.camera(width / 2, height / 2, (float) ((height / 2) / Math.tan(PI * 60.0 / 180.0)), position.x, position.y, 0, 0, 1f, 0);
+		super.camera(position.x, position.y - 500, (float) ((height) / Math.tan(PI * 60.0 / 180.0)), position.x, position.y, 0, 0, 1f, 0);
 		player.sketch();
 		baseplate.sketch();
 	}
@@ -105,6 +109,7 @@ public class Startup extends PApplet implements ContactListener {
 			Player p2 = (Player) o2;
 			p2.setMidAir(false);
 		}
+		sound.playSound();
 	}
 
 	@Override
