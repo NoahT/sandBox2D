@@ -1,22 +1,30 @@
 import java.io.File;
-import java.io.IOException;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.security.auth.login.Configuration;
+
+import javafx.application.Application;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
 public class Sound {
-	private Clip clip;
-	private AudioInputStream inputStream;
+	private MediaPlayer mediaPlayer;
+	private Media media;
 	private File file;
-	
+	//private Clip clip;
+	//private AudioInputStream inputStream;
+
+	public Sound() {
+	}
+
 	public Sound(String file) {
 		this(new File(file));
 	}
-	
+
 	public Sound(File file) {
+		this.file = file;
+		this.media = new Media(this.file.toURI().toString());
+		/*
 		try {
 			this.file = file;
 			this.inputStream = AudioSystem.getAudioInputStream(this.file);
@@ -29,9 +37,14 @@ public class Sound {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		 */
+		//Application.launch();
 	}
-	
+
 	public void playSound() {
+		this.mediaPlayer = new MediaPlayer(media);
+		this.mediaPlayer.play();
+		/*
 		try {
 			this.inputStream = AudioSystem.getAudioInputStream(this.file);
 			this.clip = AudioSystem.getClip();
@@ -46,7 +59,7 @@ public class Sound {
 		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
-	
+
 }
