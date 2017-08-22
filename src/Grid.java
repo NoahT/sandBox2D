@@ -1,17 +1,17 @@
 import processing.core.PVector;
 
 public abstract class Grid {
-	public static final int CELLS_PER_UNIT = 500;
+	public static final int CELLS_PER_UNIT = 50;
 	
-	public static PVector getGridPosition(PVector position) {
-		return position.set(getGridPosition(position.x), getGridPosition(position.y));
+	public static PVector cellsToGrid(PVector pVector) {
+		return Grid.cellsToGrid(pVector.x, pVector.y);
 	}
 	
-	public static PVector getGridPosition(float positionX, float positionY) {
-		return new PVector(getGridPosition(positionX), getGridPosition(positionY));
+	public static PVector cellsToGrid(float cellX, float cellY) {
+		return new PVector(cellsToGrid(cellX), cellsToGrid(cellY));
 	}
 	
-	public static float getGridPosition(float position) {
-		return position * CELLS_PER_UNIT;
+	public static float cellsToGrid(float cells) {
+		return cells * CELLS_PER_UNIT;
 	}
 }
