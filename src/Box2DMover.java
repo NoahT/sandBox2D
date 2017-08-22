@@ -62,6 +62,10 @@ public class Box2DMover {
 		body.setUserData(this);
 	}
 	
+	public int getColor() {
+		return this.baseColor;
+	}
+	
 	public Body getBody() {
 		return this.body;
 	}
@@ -70,6 +74,7 @@ public class Box2DMover {
 		return this.bodyDef;
 	}
 	
+	/*
 	public void sketch() {
 		this.sketch(0, 0);
 	}
@@ -77,8 +82,9 @@ public class Box2DMover {
 	public void sketch(PVector translate) {
 		this.sketch(translate.x, translate.y);
 	}
+	*/
 
-	public void sketch(float translateX, float translateY) {
+	public void sketch() {
 		Vec2 position = Startup.getWorld().getBodyPixelCoord(this.body);
 		float angle = body.getAngle();
 
@@ -91,7 +97,7 @@ public class Box2DMover {
 
 		pApplet.rectMode(pApplet.CENTER);
 
-		pApplet.rect(translateX, translateY, this.size.x, this.size.y);
+		pApplet.rect(0, 0, this.size.x, this.size.y);
 		pApplet.popMatrix();
 	}
 

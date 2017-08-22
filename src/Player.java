@@ -11,22 +11,28 @@ public class Player {
 	private float maxMovingVelocity,
 	maxJumpVelocity;
 	private boolean midAir;
+	
+	private String name;
+	private int nameSize;
 
 	public Player(PApplet pApplet) {
 		this.pApplet = pApplet;
 
 		this.torso = new Box2DMover(this.pApplet,
-				new PVector(40, 80),
+				new PVector(Grid.cellsToGrid(1), Grid.cellsToGrid(2)),
 				new PVector((this.pApplet.width / 2) - 10, (this.pApplet.height / 2) - 20),
 				this.pApplet.color(255),
 				false);
 		this.torso.getBody().setFixedRotation(true);
 		this.torso.getBody().setUserData(this);
-		this.torso.getBodyDef().type = BodyType.STATIC;
+		//this.torso.getBodyDef().type = BodyType.DYNAMIC;
 		
 		this.maxMovingVelocity = 25;
 		this.maxJumpVelocity = 400;
 		this.midAir = true;
+		
+		this.name = "John Doe";
+		this.nameSize = 24;
 	}
 	
 	public void setMidAir(boolean midAir) {
@@ -43,6 +49,11 @@ public class Player {
 	
 	public void sketch() {
 		this.torso.sketch();
+		
+		this.pApplet.fill(this.torso.getColor());
+		this.pApplet.textSize(this.nameSize);
+		Vec2 location = Startup.getWorld().getBodyPixelCoord(this.torso.getBody());
+		this.pApplet.text(this.name, location.x - (this.name.length() * 6), location.y - 75); //@todo formula for font size centering
 	}
 	
 	/*
