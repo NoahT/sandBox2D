@@ -1,4 +1,5 @@
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.BodyType;
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -21,6 +22,7 @@ public class Player {
 				false);
 		this.torso.getBody().setFixedRotation(true);
 		this.torso.getBody().setUserData(this);
+		this.torso.getBodyDef().type = BodyType.STATIC;
 		
 		this.maxMovingVelocity = 25;
 		this.maxJumpVelocity = 400;
@@ -43,6 +45,7 @@ public class Player {
 		this.torso.sketch();
 	}
 	
+	/*
 	public void sketch(PVector translation) {
 		this.torso.sketch(translation);
 	}
@@ -50,6 +53,7 @@ public class Player {
 	public void sketch(float translateX, float translateY) {
 		this.torso.sketch(translateX, translateY);
 	}
+	*/
 	
 	public Box2DMover getTorso() {
 		return this.torso;
@@ -65,13 +69,15 @@ public class Player {
 
 	public void moveLeft() {
 		//float velocityChange = this.maxMovingVelocity - Math.abs(this.getXVelocity());
-		this.torso.getBody().applyLinearImpulse(new Vec2(-this.maxMovingVelocity, 10), this.torso.getBody().getWorldCenter(), false);
+		//this.torso.getBody().applyLinearImpulse(new Vec2(-this.maxMovingVelocity, 10), this.torso.getBody().getWorldCenter(), false);
+		this.torso.getBody().applyForceToCenter(new Vec2(-this.maxMovingVelocity * 100, 10));
 		//System.out.println(this.getXVelocity());
 	}
 
 	public void moveRight() {
 		//float velocityChange = this.maxMovingVelocity - Math.abs(this.getXVelocity());
-		this.torso.getBody().applyLinearImpulse(new Vec2(this.maxMovingVelocity, 10), this.torso.getBody().getWorldCenter(), false);
+		//this.torso.getBody().applyLinearImpulse(new Vec2(this.maxMovingVelocity, 10), this.torso.getBody().getWorldCenter(), false);
+		this.torso.getBody().applyForceToCenter(new Vec2(this.maxMovingVelocity * 100, 10));
 		//System.out.println(this.getXVelocity());
 	}
 
@@ -79,7 +85,8 @@ public class Player {
 		if(this.midAir)
 			return;
 		float velocityChange = this.maxJumpVelocity - Math.abs(this.getYVelocity());
-		this.torso.getBody().applyLinearImpulse(new Vec2(this.getXVelocity(), velocityChange), this.torso.getBody().getWorldCenter(), false);
+		this.torso.getBody().applyForceToCenter(new Vec2(this.getXVelocity(), velocityChange * 100));
+		//this.torso.getBody().applyLinearImpulse(new Vec2(this.getXVelocity(), velocityChange), this.torso.getBody().getWorldCenter(), false);
 	}
 
 	public void stop() {
