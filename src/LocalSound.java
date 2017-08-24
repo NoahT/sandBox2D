@@ -17,7 +17,6 @@ public class LocalSound extends Sound {
 		this.position = position;
 		this.maxRunoffDistance = maxRunoffDistance;
 		
-		//super.setVolume(.5);
 		super.setVolume(volume);
 	}
 	

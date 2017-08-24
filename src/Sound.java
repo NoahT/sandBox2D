@@ -24,6 +24,7 @@ public class Sound {
 	public Sound(File file) {
 		this.file = file;
 		this.media = new Media(this.file.toURI().toString());
+		this.mediaPlayer = new MediaPlayer(media);
 		/*
 		try {
 			this.file = file;
@@ -42,7 +43,6 @@ public class Sound {
 	}
 
 	public void playSound() {
-		this.mediaPlayer = new MediaPlayer(media);
 		this.mediaPlayer.play();
 		/*
 		try {
@@ -60,6 +60,10 @@ public class Sound {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
+	}
+	
+	public void setVolume(double volume) {
+		this.mediaPlayer.setVolume(volume);
 	}
 
 }
